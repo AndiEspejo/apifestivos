@@ -2,6 +2,7 @@ package apifestivos.apifestivos.controllers;
 
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +25,7 @@ public class HolidayController {
   @GetMapping("/verificar/{año}/{mes}/{dia}")
   public String holidayVerification(@PathVariable int año, @PathVariable int mes, @PathVariable int dia) {
     if (holidayService.isValidDate(String.valueOf(año) + "-" + String.valueOf(mes) + "-" + String.valueOf(dia))) {
-      Calendar calendar = Calendar.getInstance();
+      Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
       calendar.set(año, mes - 1, dia);
       Date date = calendar.getTime();
       return holidayService.isHoliday(date) ? "Es festivo" : "No es festivo";
